@@ -1,0 +1,135 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+config_setting(
+    name = "debug_build",
+    values = {
+        "compilation_mode": "dbg",
+    },
+)
+
+config_setting(
+    name = "release_build",
+    values = {
+        "compilation_mode": "opt",
+    },
+)
+
+# === win32 ===
+
+WIN32_SRCS = glob([
+    "Platform/Win32/**/*.cpp",
+    "Platform/Win32/**/*.hpp",
+    "Platform/Vulkan/**/*.cpp",
+    "Platform/Vulkan/**/*.hpp",
+])
+
+WIN32_DEFINES = [
+    "PK_WIN32",
+    "PK_VULKAN",
+    "PK_GLFW",
+]
+
+WIN32_DEPS = [
+    "@rules_vulkan//vulkan:vulkan_cc_library",
+]
+
+# === linux ===
+
+LINUX_DEFINES = [
+    "PK_LINUX",
+    "PK_VULKAN",
+    "PK_GLFW",
+]
+
+LINUX_DEPS = [
+    "@rules_vulkan//vulkan:vulkan_cc_library",
+]
+
+# === darwin ===
+
+DARWIN_DEFINES = [
+    "PK_DARWIN",
+    "PK_VULKAN",
+    "PK_GLFW",
+]
+
+DARWIN_DEPS = [
+    "@rules_vulkan//vulkan:vulkan_cc_library",
+]
+
+# === editor ===
+
+EDITOR_DEFINES = [
+    "PK_EDITOR",
+]
+
+# === runtime ===
+
+RUNTIME_DEFINES = [
+    "PK_RUNTIME",
+]
+
+# === common ===
+
+COMMON_SRCS = glob([
+    "Core/**/*.cpp",
+    "Core/**/*.hpp",
+    "Engines/**/*.cpp",
+    "Engines/**/*.hpp",
+    "Main/**/*.cpp",
+    "Main/**/*.hpp",
+    "Platform/*.cpp",
+    "Platform/*.hpp",
+    "Scene/**/*.cpp",
+    "Scene/**/*.hpp",
+])
+
+COMMON_DEFINES = select({
+    ":debug_build": ["PK_DEBUG"],
+    ":release_build": ["PK_RELEASE"],
+})
+
+COMMON_DEPS = [
+    "//ThirdParty/glfw",
+    "//ThirdParty/glm",
+    "//ThirdParty/spdlog",
+    "//ThirdParty/volk",
+]
+
+cc_binary(
+    name = "PikselaEditor",
+    srcs = COMMON_SRCS + select({
+        "@bazel_tools//src/conditions:windows": WIN32_SRCS,
+        "@bazel_tools//src/conditions:linux_x86_64": ["."],
+        "@bazel_tools//src/conditions:darwin": ["."],
+    }),
+    defines = COMMON_DEFINES + EDITOR_DEFINES + select({
+        "@bazel_tools//src/conditions:windows": WIN32_DEFINES,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_DEFINES,
+        "@bazel_tools//src/conditions:darwin": DARWIN_DEFINES,
+    }),
+    deps = COMMON_DEPS + select({
+        "@bazel_tools//src/conditions:windows": WIN32_DEPS,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_DEPS,
+        "@bazel_tools//src/conditions:darwin": DARWIN_DEPS,
+    }),
+)
+
+cc_binary(
+    name = "PikselaRuntime",
+    srcs = COMMON_SRCS + RUNTIME_DEFINES + select({
+        "@bazel_tools//src/conditions:windows": WIN32_SRCS,
+        "@bazel_tools//src/conditions:linux_x86_64": ["."],
+        "@bazel_tools//src/conditions:darwin": ["."],
+    }),
+    defines = COMMON_DEFINES + select({
+        "@bazel_tools//src/conditions:windows": WIN32_DEFINES,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_DEFINES,
+        "@bazel_tools//src/conditions:darwin": DARWIN_DEFINES,
+    }),
+    deps = COMMON_DEPS + select({
+        "@bazel_tools//src/conditions:windows": WIN32_DEPS,
+        "@bazel_tools//src/conditions:linux_x86_64": LINUX_DEPS,
+        "@bazel_tools//src/conditions:darwin": DARWIN_DEPS,
+    }),
+)

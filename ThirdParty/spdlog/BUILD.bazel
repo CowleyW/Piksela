@@ -1,0 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "spdlog",
+    srcs = glob(["**/*.cpp"]),
+    hdrs = glob(["**/*.h"]),
+    defines = ["SPDLOG_COMPILED_LIB"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
