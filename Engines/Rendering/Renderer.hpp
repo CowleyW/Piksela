@@ -16,8 +16,13 @@ public:
     static void Init(const std::shared_ptr<Window> &window);
     static void Shutdown();
 
-    static void DrawFrame();
-    static void ResizeViewport();
+    static void SetClearColor(float r, float g, float b, float a);
+    static void ClearBuffer();
+    static void ResizeViewport(uint32_t width, uint32_t height);
+    static void SwapBuffers();
+
+    static void BeginScene();
+    static void EndScene();
 
     static std::shared_ptr<Context> GetContext()
     {

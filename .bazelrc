@@ -1,0 +1,2 @@
+build -c dbg --define api=opengl
+run -c dbg --define api=opengl

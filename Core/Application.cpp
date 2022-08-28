@@ -48,7 +48,7 @@ void Application::OnEvent(InputEvent &e)
             WindowResizeEvent &ev = static_cast<WindowResizeEvent &>(e);
             mWindow->SetWidth(ev.GetWidth());
             mWindow->SetHeight(ev.GetHeight());
-            Renderer::ResizeViewport();
+            Renderer::ResizeViewport(ev.GetWidth(), ev.GetHeight());
             ev.Handled = true;
             return;
         }

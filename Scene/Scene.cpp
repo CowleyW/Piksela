@@ -8,6 +8,7 @@ namespace Piksela
 
 Scene::Scene()
 {
+    Renderer::SetClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 }
 
 Scene::~Scene()
@@ -20,7 +21,10 @@ void Scene::Update()
 
 void Scene::Render()
 {
-    Renderer::DrawFrame();
+    Renderer::ClearBuffer();
+
+    Renderer::BeginScene();
+    Renderer::EndScene();
 }
 
 void Scene::OnInputEvent(InputEvent &e)

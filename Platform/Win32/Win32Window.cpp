@@ -4,6 +4,7 @@
 
 #include "Core/Core.hpp"
 #include "Core/Input/InputEvent.hpp"
+#include "Engines/Rendering/Renderer.hpp"
 #include "Win32Window.hpp"
 
 namespace Piksela
@@ -14,8 +15,9 @@ Win32Window::Win32Window(WindowSpecification specification) :
 {
     PK_ASSERT(glfwInit(), "Failed to initialize glfw!");
 
+#ifdef PK_VULKAN
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-
+#endif
     mWindowHandle = glfwCreateWindow(
             specification.WindowWidth,
             specification.WindowHeight,
@@ -54,6 +56,8 @@ Win32Window::~Win32Window()
 void Win32Window::OnUpdate()
 {
     glfwPollEvents();
+
+    Renderer::SwapBuffers();
 }
 
 void Win32Window::SetCallbackFunction(std::function<void(InputEvent &)> callback)

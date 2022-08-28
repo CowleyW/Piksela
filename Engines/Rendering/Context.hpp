@@ -13,9 +13,10 @@ public:
     static std::shared_ptr<Context> Create(const std::shared_ptr<Window> &window);
     virtual ~Context() = default;
 
-    virtual void DrawFrame() = 0;
-    virtual void ResizeViewport() = 0;
-    virtual void WaitIdle() = 0;
+    virtual void SetClearColor(float r, float g, float b, float a) = 0;
+    virtual void ClearBuffer() = 0;
+    virtual void ResizeViewport(uint32_t width, uint32_t height) = 0;
+    virtual void SwapBuffers() = 0;
 };
 
 } // namespace Piksela

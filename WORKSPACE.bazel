@@ -2,8 +2,9 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 git_repository(
     name = "rules_vulkan",
+    commit = "7aa5bd55890c6018583d2b94f446deb33499e27f",
     remote = "https://github.com/jadarve/rules_vulkan.git",
-    tag = "v0.0.6",
+    shallow_since = "1645375268 -0500",
 )
 
 load("@rules_vulkan//vulkan:repositories.bzl", "vulkan_repositories")
