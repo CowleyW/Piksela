@@ -52,6 +52,14 @@ OpenGLContext::OpenGLContext(std::shared_ptr<Window> window) :
     int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     PK_ASSERT(status, "gladLoadGLLoader failed to initialize GLAD.");
 #endif
+
+#ifdef PK_DEBUG
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+    glDebugMessageCallback(OpenGLContext::DebugCallback, nullptr);
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
+#endif
+
     glViewport(0, 0, window->GetWidth(), window->GetHeight());
 
     CoreLogger::Trace("OpenGL Info:");
@@ -64,24 +72,6 @@ OpenGLContext::OpenGLContext(std::shared_ptr<Window> window) :
     glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
     glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
     PK_ASSERT((versionMajor > 4) || (versionMajor == 4 && versionMinor >= 6), "Minimum OpenGL version supported is version 4.6");
-
-#ifdef PK_DEBUG
-    glEnable(GL_DEBUG_OUTPUT);
-    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-    glDebugMessageCallback(OpenGLContext::DebugCallback, nullptr);
-    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
-#endif
-
-    glGenVertexArrays(1, &mVertexArray);
-    glBindVertexArray(mVertexArray);
-
-    uint32_t indices[] = {
-        0, 1, 2, 2, 3, 0
-    };
-
-    glGenBuffers(1, &mIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
 void OpenGLContext::SetClearColor(float r, float g, float b, float a)
@@ -92,10 +82,11 @@ void OpenGLContext::SetClearColor(float r, float g, float b, float a)
 void OpenGLContext::ClearBuffer()
 {
     glClear(GL_COLOR_BUFFER_BIT);
+}
 
-    glBindVertexArray(mVertexArray);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIndexBuffer);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+void OpenGLContext::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray)
+{
+    glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 void OpenGLContext::ResizeViewport(uint32_t width, uint32_t height)

@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "Core/Core.hpp"
+#include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 
 namespace Piksela
@@ -16,9 +17,12 @@ void Renderer::Init(const std::shared_ptr<Window> &window)
 
     sData.FramebufferWidth = window->GetWidth();
     sData.FramebufferHeight = window->GetHeight();
+
+    sData.VertexArray = VertexArray::Create();
     sData.VertexBuffer = VertexBuffer::Create(sData.MaxPolys * 3 * sizeof(Vertex));
-    sData.VertexBuffer->Bind();
     sData.IndexBuffer = IndexBuffer::Create(sData.MaxPolys * 2 * sizeof(uint32_t));
+    sData.VertexArray->SetVertexBuffer(sData.VertexBuffer);
+    sData.VertexArray->SetIndexBuffer(sData.IndexBuffer);
 }
 
 void Renderer::Shutdown()
@@ -54,11 +58,12 @@ void Renderer::SwapBuffers()
 
 void Renderer::BeginScene(const std::shared_ptr<PerspectiveCamera> &camera)
 {
-    sData.IndexBuffer->Bind();
+    sData.VertexArray->Bind();
 }
 
 void Renderer::EndScene()
 {
+    sContext->DrawIndexed(sData.VertexArray);
 }
 
 } // namespace Piksela

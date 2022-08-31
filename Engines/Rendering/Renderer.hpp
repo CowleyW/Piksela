@@ -7,6 +7,7 @@
 #include "Core/Core.hpp"
 #include "IndexBuffer.hpp"
 #include "Platform/Window.hpp"
+#include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 
 namespace Piksela
@@ -51,6 +52,7 @@ private:
 
         std::shared_ptr<VertexBuffer> VertexBuffer;
         std::shared_ptr<IndexBuffer> IndexBuffer;
+        std::shared_ptr<VertexArray> VertexArray;
     };
     static RendererData sData;
 };

@@ -10,6 +10,7 @@ class OpenGLVertexBuffer : public VertexBuffer
 {
 public:
     OpenGLVertexBuffer(size_t size);
+    ~OpenGLVertexBuffer();
 
     virtual void Bind() override;
 

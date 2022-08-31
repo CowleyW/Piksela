@@ -14,14 +14,14 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size)
         -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f
     };
 
-    glGenBuffers(1, &mVertexBufferID);
+    glCreateBuffers(1, &mVertexBufferID);
     glBindBuffer(GL_ARRAY_BUFFER, mVertexBufferID);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+}
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void *)(3 * sizeof(float)));
+OpenGLVertexBuffer::~OpenGLVertexBuffer()
+{
+    glDeleteBuffers(1, &mVertexBufferID);
 }
 
 void OpenGLVertexBuffer::Bind()
