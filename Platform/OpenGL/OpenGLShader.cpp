@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 
+#include <stb/stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -41,6 +42,25 @@ OpenGLShader::OpenGLShader(const std::string &vertexPath, const std::string &fra
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
+
+#if 0
+    int width, height, numChannels;
+    uint8_t *data = stbi_load("C:/dev/Piksela/Assets/Textures/Old_Brick_DIFF.png", &width, &height, &numChannels, 0);
+    PK_ASSERT(data, "stbi_load failed to load texture.");
+    uint32_t textureID;
+    glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
+    glTextureParameteri(textureID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTextureParameteri(textureID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTextureParameteri(textureID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+    glTextureParameteri(textureID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glUseProgram(mProgramID);
+    int location = glGetUniformLocation(mProgramID, "uTexture");
+    glUniform1i(location, 0);
+    glBindTextureUnit(0, textureID);
+    free(data);
+#endif
 }
 
 OpenGLShader::OpenGLShader(const std::string &name)
@@ -57,6 +77,12 @@ void OpenGLShader::SetViewProjectionMatrix(const glm::mat4 &matrix)
     static int matricesLocation = glGetUniformLocation(mProgramID, "uViewProjection");
 
     glUniformMatrix4fv(matricesLocation, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void OpenGLShader::SetInt(const std::string &name, int value)
+{
+    int location = glGetUniformLocation(mProgramID, name.c_str());
+    glUniform1i(location, value);
 }
 
 } // namespace Piksela

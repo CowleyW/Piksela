@@ -7,6 +7,8 @@
 #include "Core/Core.hpp"
 #include "IndexBuffer.hpp"
 #include "Platform/Window.hpp"
+#include "Shader.hpp"
+#include "Texture.hpp"
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 
@@ -53,6 +55,10 @@ private:
         std::shared_ptr<VertexBuffer> VertexBuffer;
         std::shared_ptr<IndexBuffer> IndexBuffer;
         std::shared_ptr<VertexArray> VertexArray;
+
+        std::shared_ptr<Shader> StandardShader;
+
+        std::shared_ptr<Texture> Texture;
     };
     static RendererData sData;
 };

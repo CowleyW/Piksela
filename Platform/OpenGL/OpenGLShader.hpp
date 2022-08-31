@@ -15,7 +15,9 @@ public:
     OpenGLShader(const std::string &name);
 
     virtual void Bind() override;
-    virtual void SetViewProjectionMatrix(const glm::mat4 &matrix);
+    virtual void SetViewProjectionMatrix(const glm::mat4 &matrix) override;
+
+    virtual void SetInt(const std::string &name, int value) override;
 
 private:
     uint32_t mProgramID;

@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 #include "Context.hpp"
 #include "Core/Core.hpp"
+#include "Texture.hpp"
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 
@@ -23,6 +24,13 @@ void Renderer::Init(const std::shared_ptr<Window> &window)
     sData.IndexBuffer = IndexBuffer::Create(sData.MaxPolys * 2 * sizeof(uint32_t));
     sData.VertexArray->SetVertexBuffer(sData.VertexBuffer);
     sData.VertexArray->SetIndexBuffer(sData.IndexBuffer);
+
+    sData.Texture = Texture::Create("C:/dev/Piksela/Assets/Textures/Old_Brick_DIFF.png");
+
+    sData.StandardShader = Shader::Create("C:/dev/Piksela/Assets/Shaders/StandardShader.vert",
+            "C:/dev/Piksela/Assets/Shaders/StandardShader.frag");
+    sData.StandardShader->Bind();
+    sData.StandardShader->SetInt("uTexture", 0);
 }
 
 void Renderer::Shutdown()
@@ -58,11 +66,13 @@ void Renderer::SwapBuffers()
 
 void Renderer::BeginScene(const std::shared_ptr<PerspectiveCamera> &camera)
 {
-    sData.VertexArray->Bind();
+    sData.StandardShader->Bind();
+    sData.StandardShader->SetViewProjectionMatrix(camera->GetViewProjectionMatrix());
 }
 
 void Renderer::EndScene()
 {
+    sData.Texture->Bind(0);
     sContext->DrawIndexed(sData.VertexArray);
 }
 

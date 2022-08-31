@@ -20,7 +20,6 @@ public:
     void OnInputEvent(InputEvent &e);
 
 private:
-    std::shared_ptr<Shader> mShader;
     std::shared_ptr<PerspectiveCamera> mCamera;
 };
 

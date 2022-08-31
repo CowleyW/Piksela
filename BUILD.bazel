@@ -114,6 +114,7 @@ COMMON_DEFINES = select({
 COMMON_DEPS = [
     "//ThirdParty/glm",
     "//ThirdParty/spdlog",
+    "//ThirdParty/stb",
 ]
 
 cc_binary(
