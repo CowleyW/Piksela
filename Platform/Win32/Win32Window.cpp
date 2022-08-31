@@ -15,6 +15,10 @@ Win32Window::Win32Window(WindowSpecification specification) :
 {
     PK_ASSERT(glfwInit(), "Failed to initialize glfw!");
 
+#if defined(PK_OPENGL) && defined(PK_DEBUG)
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+#endif
+
 #ifdef PK_VULKAN
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 #endif

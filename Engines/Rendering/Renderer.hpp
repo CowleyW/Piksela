@@ -2,10 +2,12 @@
 
 #include <glm/glm.hpp>
 
+#include "Camera.hpp"
 #include "Context.hpp"
 #include "Core/Core.hpp"
-#include "Engines/Rendering/Buffer.hpp"
+#include "IndexBuffer.hpp"
 #include "Platform/Window.hpp"
+#include "VertexBuffer.hpp"
 
 namespace Piksela
 {
@@ -19,9 +21,10 @@ public:
     static void SetClearColor(float r, float g, float b, float a);
     static void ClearBuffer();
     static void ResizeViewport(uint32_t width, uint32_t height);
+    static float GetFramebufferAspectRatio();
     static void SwapBuffers();
 
-    static void BeginScene();
+    static void BeginScene(const std::shared_ptr<PerspectiveCamera> &camera);
     static void EndScene();
 
     static std::shared_ptr<Context> GetContext()
@@ -41,9 +44,13 @@ private:
     struct RendererData
     {
         // Max amount of polys per draw call
-        static const uint32_t MaxPolys = 5000;
+        static const uint32_t MaxPolys = 4;
+
+        uint32_t FramebufferWidth;
+        uint32_t FramebufferHeight;
 
         std::shared_ptr<VertexBuffer> VertexBuffer;
+        std::shared_ptr<IndexBuffer> IndexBuffer;
     };
     static RendererData sData;
 };

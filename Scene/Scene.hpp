@@ -2,6 +2,8 @@
 
 #include "Core/Core.hpp"
 #include "Core/Input/InputEvent.hpp"
+#include "Engines/Rendering/Camera.hpp"
+#include "Engines/Rendering/Shader.hpp"
 
 namespace Piksela
 {
@@ -16,6 +18,10 @@ public:
     void Render();
 
     void OnInputEvent(InputEvent &e);
+
+private:
+    std::shared_ptr<Shader> mShader;
+    std::shared_ptr<PerspectiveCamera> mCamera;
 };
 
 } // namespace Piksela

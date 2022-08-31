@@ -17,10 +17,18 @@ public:
     virtual void ResizeViewport(uint32_t width, uint32_t height) override;
     virtual void SwapBuffers() override;
 
+    static void DebugCallback(
+            uint32_t source,
+            uint32_t type,
+            uint32_t id,
+            uint32_t severity,
+            int length,
+            const char *message,
+            const void *userParam);
+
 private:
     std::shared_ptr<Window> mWindow;
 
-    uint32_t mShaderProgram;
     uint32_t mVertexArray;
     uint32_t mIndexBuffer;
 };
