@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.hpp"
+#include "Debug/DebugLayer.hpp"
 #include "Platform/Window.hpp"
 #include "Scene/Scene.hpp"
 
@@ -33,6 +34,7 @@ private:
     std::shared_ptr<Window> mWindow;
 
     std::unique_ptr<Scene> mScene;
+    std::unique_ptr<DebugLayer> mDebugLayer;
 
     ApplicationSpecification mSpecification;
     bool mRunning;
