@@ -27,7 +27,7 @@ public:
     static float GetFramebufferAspectRatio();
     static void SwapBuffers();
 
-    static void BeginScene(const std::shared_ptr<PerspectiveCamera> &camera);
+    static void BeginScene(const PerspectiveCamera &camera);
     static void EndScene();
 
     static std::shared_ptr<Context> GetContext()

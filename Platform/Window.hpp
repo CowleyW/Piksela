@@ -21,7 +21,7 @@ class Window
 public:
     ~Window();
 
-    virtual void OnUpdate() = 0;
+    virtual void Update() = 0;
     virtual void SetCallbackFunction(std::function<void(InputEvent &)> callback) = 0;
     virtual void SetVSync(bool enabled) = 0;
     virtual void *GetNativeWindow() = 0;

@@ -1,0 +1,14 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "tinygltf",
+    srcs = ["tiny_gltf.cc"],
+    hdrs = [
+        "json.hpp",
+        "stb_image.h",
+        "stb_image_write.h",
+        "tiny_gltf.h",
+    ],
+    include_prefix = "tinygltf",
+    visibility = ["//visibility:public"],
+)

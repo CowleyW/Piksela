@@ -1,8 +1,8 @@
 #pragma once
 
+#include "CameraController.hpp"
 #include "Core/Core.hpp"
 #include "Core/Input/InputEvent.hpp"
-#include "Engines/Rendering/Camera.hpp"
 #include "Engines/Rendering/Shader.hpp"
 
 namespace Piksela
@@ -14,13 +14,13 @@ public:
     Scene();
     ~Scene();
 
-    void Update();
+    void Update(float timestep);
     void Render();
 
     void OnInputEvent(InputEvent &e);
 
 private:
-    std::shared_ptr<PerspectiveCamera> mCamera;
+    std::unique_ptr<DebugCamera> mCameraController;
 };
 
 } // namespace Piksela

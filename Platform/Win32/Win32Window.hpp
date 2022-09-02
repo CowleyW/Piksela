@@ -16,7 +16,7 @@ public:
     Win32Window(WindowSpecification specification);
     ~Win32Window();
 
-    virtual void OnUpdate() override;
+    virtual void Update() override;
     virtual void SetCallbackFunction(std::function<void(InputEvent &)> callback) override;
     virtual void SetVSync(bool enabled) override;
     virtual void *GetNativeWindow() override;

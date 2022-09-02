@@ -57,7 +57,7 @@ Win32Window::~Win32Window()
     glfwTerminate();
 }
 
-void Win32Window::OnUpdate()
+void Win32Window::Update()
 {
     glfwPollEvents();
 

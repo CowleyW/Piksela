@@ -25,7 +25,7 @@ void Renderer::Init(const std::shared_ptr<Window> &window)
     sData.VertexArray->SetVertexBuffer(sData.VertexBuffer);
     sData.VertexArray->SetIndexBuffer(sData.IndexBuffer);
 
-    sData.Texture = Texture::Create("C:/dev/Piksela/Assets/Textures/Old_Brick_DIFF.png");
+    sData.Texture = Texture::Create("C:/dev/Piksela/Assets/Textures/Stone_Pavement_DIFF.png");
 
     sData.StandardShader = Shader::Create("C:/dev/Piksela/Assets/Shaders/StandardShader.vert",
             "C:/dev/Piksela/Assets/Shaders/StandardShader.frag");
@@ -64,10 +64,10 @@ void Renderer::SwapBuffers()
     sContext->SwapBuffers();
 }
 
-void Renderer::BeginScene(const std::shared_ptr<PerspectiveCamera> &camera)
+void Renderer::BeginScene(const PerspectiveCamera &camera)
 {
     sData.StandardShader->Bind();
-    sData.StandardShader->SetViewProjectionMatrix(camera->GetViewProjectionMatrix());
+    sData.StandardShader->SetViewProjectionMatrix(camera.GetViewProjectionMatrix());
 }
 
 void Renderer::EndScene()
