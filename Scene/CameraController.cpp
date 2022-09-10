@@ -64,11 +64,13 @@ void DebugCamera::Update(float timestep)
     // Look Up-Down
     if (Input::IsKeyPressed(KeyCode::Up))
     {
-        mCamera.Rotate(glm::vec3(1 * timestep, 0.0f, 0.0f));
+        glm::vec3 rotation = right * -timestep;
+        mCamera.Rotate(rotation);
     }
     if (Input::IsKeyPressed(KeyCode::Down))
     {
-        mCamera.Rotate(glm::vec3(-1 * timestep, 0.0f, 0.0f));
+        glm::vec3 rotation = right * timestep;
+        mCamera.Rotate(rotation);
     }
 }
 

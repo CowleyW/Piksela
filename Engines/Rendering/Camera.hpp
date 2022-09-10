@@ -32,6 +32,8 @@ private:
     glm::mat4 mProjection;
     glm::vec3 mPosition;
     glm::vec3 mFront;
+
+    // [pitch, yaw, roll]
     glm::vec3 mRotation;
     // glm::quat mOrientation;
 
