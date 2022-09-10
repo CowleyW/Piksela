@@ -54,6 +54,7 @@ void Application::OnEvent(InputEvent &e)
             mWindow->SetWidth(ev.GetWidth());
             mWindow->SetHeight(ev.GetHeight());
             Renderer::ResizeViewport(ev.GetWidth(), ev.GetHeight());
+            mScene->OnInputEvent(ev);
             ev.Handled = true;
             return;
         }

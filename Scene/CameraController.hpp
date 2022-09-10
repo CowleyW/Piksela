@@ -15,7 +15,7 @@ public:
     void Update(float timestep);
     // void OnEvent(InputEvent &e);
 
-    const PerspectiveCamera &GetCamera()
+    PerspectiveCamera &GetCamera()
     {
         return mCamera;
     }

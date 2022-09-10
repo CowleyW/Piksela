@@ -61,6 +61,7 @@ OpenGLContext::OpenGLContext(std::shared_ptr<Window> window) :
 #endif
 
     glViewport(0, 0, window->GetWidth(), window->GetHeight());
+    glEnable(GL_DEPTH_TEST);
 
     CoreLogger::Trace("OpenGL Info:");
     CoreLogger::Trace("    Vendor: {0}", glGetString(GL_VENDOR));
@@ -81,7 +82,7 @@ void OpenGLContext::SetClearColor(float r, float g, float b, float a)
 
 void OpenGLContext::ClearBuffer()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void OpenGLContext::DrawIndexed(const std::shared_ptr<VertexArray> &vertexArray)

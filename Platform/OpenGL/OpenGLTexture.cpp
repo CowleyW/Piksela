@@ -12,6 +12,7 @@ OpenGLTexture::OpenGLTexture(const std::string &filePath)
     glCreateTextures(GL_TEXTURE_2D, 1, &mTextureID);
 
     int width, height, numChannels;
+    stbi_set_flip_vertically_on_load(true);
     uint8_t *data = stbi_load(filePath.c_str(), &width, &height, &numChannels, 0);
     PK_ASSERT(data, "stbi_load failed to load texture.");
 

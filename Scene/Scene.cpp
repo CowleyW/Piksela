@@ -1,10 +1,12 @@
-#include "Scene.hpp"
+#include <imgui/imgui.h>
+
 #include "CameraController.hpp"
 #include "Core/Core.hpp"
 #include "Core/Input/Input.hpp"
 #include "Core/Input/InputEvent.hpp"
 #include "Engines/Rendering/Renderer.hpp"
 #include "Engines/Rendering/Shader.hpp"
+#include "Scene.hpp"
 
 namespace Piksela
 {
@@ -31,10 +33,21 @@ void Scene::Render()
     Renderer::BeginScene(mCameraController->GetCamera());
 
     Renderer::EndScene();
+
+    glm::vec3 position = mCameraController->GetCamera().GetPosition();
+    ImGui::Begin("Camera Position");
+    ImGui::Text("x: %.2f", position.x);
+    ImGui::Text("y: %.2f", position.y);
+    ImGui::Text("z: %.2f", position.z);
+    ImGui::End();
 }
 
 void Scene::OnInputEvent(InputEvent &e)
 {
+    if (e.GetType() == EventType::WindowResize)
+    {
+        mCameraController->GetCamera().RecalculateProjectionMatrix();
+    }
 }
 
 } // namespace Piksela

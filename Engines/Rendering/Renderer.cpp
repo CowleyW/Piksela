@@ -20,8 +20,8 @@ void Renderer::Init(const std::shared_ptr<Window> &window)
     sData.FramebufferHeight = window->GetHeight();
 
     sData.VertexArray = VertexArray::Create();
-    sData.VertexBuffer = VertexBuffer::Create(sData.MaxPolys * 3 * sizeof(Vertex));
-    sData.IndexBuffer = IndexBuffer::Create(sData.MaxPolys * 2 * sizeof(uint32_t));
+    sData.VertexBuffer = VertexBuffer::Create(8 * sizeof(Vertex));
+    sData.IndexBuffer = IndexBuffer::Create(36 * sizeof(uint32_t));
     sData.VertexArray->SetVertexBuffer(sData.VertexBuffer);
     sData.VertexArray->SetIndexBuffer(sData.IndexBuffer);
 

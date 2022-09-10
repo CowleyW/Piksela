@@ -10,7 +10,29 @@ OpenGLIndexBuffer::OpenGLIndexBuffer(size_t size)
     mCount = size / sizeof(uint32_t);
 
     uint32_t indices[] = {
-        0, 1, 2, 2, 3, 0
+        // Top
+        2, 6, 7,
+        2, 3, 7,
+
+        // Bottom
+        0, 4, 5,
+        0, 1, 5,
+
+        // Left
+        0, 2, 6,
+        0, 4, 6,
+
+        // Right
+        1, 3, 7,
+        1, 5, 7,
+
+        // Front
+        0, 2, 3,
+        0, 1, 3,
+
+        // Back
+        4, 6, 7,
+        4, 5, 7
     };
 
     glCreateBuffers(1, &mIndexBufferID);
