@@ -44,10 +44,7 @@ void Scene::Render()
 
 void Scene::OnInputEvent(InputEvent &e)
 {
-    if (e.GetType() == EventType::WindowResize)
-    {
-        mCameraController->GetCamera().RecalculateProjectionMatrix();
-    }
+    mCameraController->OnEvent(e);
 }
 
 } // namespace Piksela

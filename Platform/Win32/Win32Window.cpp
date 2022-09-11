@@ -48,6 +48,14 @@ Win32Window::Win32Window(WindowSpecification specification) :
 
         callback.CallbackFunction(e);
     });
+
+    glfwSetCursorPosCallback(mWindowHandle, [](GLFWwindow *windowHandle, double x, double y) {
+        MouseMovedEvent e(x, y);
+
+        auto &callback = *reinterpret_cast<WindowCallback *>(glfwGetWindowUserPointer(windowHandle));
+
+        callback.CallbackFunction(e);
+    });
 }
 
 Win32Window::~Win32Window()

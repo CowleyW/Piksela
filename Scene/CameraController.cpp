@@ -3,7 +3,7 @@
 
 #include "CameraController.hpp"
 #include "Core/Input/Input.hpp"
-//#include "Core/Input/InputEvent.hpp"
+#include "Core/Input/InputEvent.hpp"
 
 namespace Piksela
 {
@@ -50,32 +50,39 @@ void DebugCamera::Update(float timestep)
     {
         mCamera.Translate(glm::vec3(0.0f, -movementSpeed * timestep, 0.0f));
     }
-
-    // Look Left-Right
-    if (Input::IsKeyPressed(KeyCode::Left))
-    {
-        mCamera.Rotate(glm::vec3(0.0f, -1 * timestep, 0.0f));
-    }
-    if (Input::IsKeyPressed(KeyCode::Right))
-    {
-        mCamera.Rotate(glm::vec3(0.0f, 1 * timestep, 0.0f));
-    }
-
-    // Look Up-Down
-    if (Input::IsKeyPressed(KeyCode::Up))
-    {
-        glm::vec3 rotation = right * -timestep;
-        mCamera.Rotate(rotation);
-    }
-    if (Input::IsKeyPressed(KeyCode::Down))
-    {
-        glm::vec3 rotation = right * timestep;
-        mCamera.Rotate(rotation);
-    }
 }
 
-// void DebugCamera::OnEvent(InputEvent &e)
-//{
-// }
+void DebugCamera::OnEvent(InputEvent &e)
+{
+    if (e.GetType() == EventType::WindowResize)
+    {
+        mCamera.RecalculateProjectionMatrix();
+    } else if (e.GetType() == EventType::MouseMoved)
+    {
+        MouseMovedEvent &me = static_cast<MouseMovedEvent &>(e);
+        static float x = me.GetX();
+        static float y = me.GetY();
+
+        // Only move camera when left mouse button is held down
+        if (!Input::IsMouseButtonPressed(MouseButton::Left))
+        {
+            x = me.GetX();
+            y = me.GetY();
+            return;
+        }
+
+        float dX = me.GetX() - x;
+        float dY = me.GetY() - y;
+        x = me.GetX();
+        y = me.GetY();
+
+        glm::vec3 right = glm::normalize(glm::cross(mCamera.GetFront(), glm::vec3(0.0f, 1.0f, 0.0f)));
+        mCamera.Rotate(glm::vec3(0.0f, 0.001f * dX, 0.0f));
+        mCamera.Rotate(right * 0.001f * dY);
+
+        me.Handled = true;
+        return;
+    }
+}
 
 } // namespace Piksela

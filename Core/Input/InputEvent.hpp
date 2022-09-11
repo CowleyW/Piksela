@@ -33,6 +33,10 @@ public:
     bool Handled = false;
 };
 
+//===---------------------------------------------------------------------===//
+// Window Events
+//===---------------------------------------------------------------------===//
+
 class WindowCloseEvent : public InputEvent
 {
 public:
@@ -70,6 +74,38 @@ public:
 private:
     uint32_t mWidth;
     uint32_t mHeight;
+};
+
+//===---------------------------------------------------------------------===//
+// Mouse Events
+//===---------------------------------------------------------------------===//
+
+class MouseMovedEvent : public InputEvent
+{
+public:
+    MouseMovedEvent(double x, double y) :
+            mX((float)x), mY((float)y)
+    {
+    }
+
+    virtual EventType GetType() const override
+    {
+        return EventType::MouseMoved;
+    }
+
+    float GetX()
+    {
+        return mX;
+    }
+
+    float GetY()
+    {
+        return mY;
+    }
+
+private:
+    float mX;
+    float mY;
 };
 
 } // namespace Piksela

@@ -1,7 +1,8 @@
 #pragma once
 
-//#include "Core/Input/InputEvent.hpp"
 #include "Engines/Rendering/Camera.hpp"
+
+#include "Core/Input/InputEvent.hpp"
 
 namespace Piksela
 {
@@ -13,7 +14,7 @@ public:
     ~DebugCamera();
 
     void Update(float timestep);
-    // void OnEvent(InputEvent &e);
+    void OnEvent(InputEvent &e);
 
     PerspectiveCamera &GetCamera()
     {
